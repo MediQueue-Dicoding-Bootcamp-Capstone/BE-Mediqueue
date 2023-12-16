@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-
+    
 class AppointmentController extends Controller
 {
 
@@ -68,6 +68,7 @@ class AppointmentController extends Controller
         // where date is now
         $appointments = Appointment::whereDate('appointment_date', Carbon::today())->paginate(10); // Adjust the number per page as needed
         // $appointments = Appointment::paginate(10); // Adjust the number per page as needed
+        // get appointment with doctor
 
         // Customize the response structure to include pagination information
         return response()->json([
@@ -84,6 +85,17 @@ class AppointmentController extends Controller
     public function createAppointment(AppointmentCreateRequest $request)
     {
         $data = $request->validated();
+        $user = auth()->user();
+
+        if (!$user || $user == null) {
+            return response()->json([
+                'errors' => [
+                    'message' => [
+                        'unauthorized',
+                    ],
+                ],
+            ], 401);
+        }
         $doctor = Doctor::find($request->doctor_id);
         $start_hour = Carbon::createFromFormat('H:i:s', $doctor->start_hour);
         $CheckAppointmentQueue = Appointment::where('appointment_date', $request->appointment_date)->where('doctor_id', $request->doctor_id)->get();
@@ -95,6 +107,7 @@ class AppointmentController extends Controller
         $data['no_queue'] = $CheckAppointmentQueue->count() + 1;
         $data['appointment_time'] = $appointment_time;
         $appointment = Appointment::create($data);
+        $appointment->doctor_name = $doctor->name;
         return response()->json([
             'message' => 'Success',
             'data' => $appointment,
@@ -104,7 +117,20 @@ class AppointmentController extends Controller
     public function getAppointment(Request $request)
     {
         $user = auth()->user();
-        $appointment = Appointment::where('user_id', $user->id)->get();
+        if (!$user || $user == null) {
+            return response()->json([
+                'errors' => [
+                    'message' => [
+                        'unauthorized',
+                    ],
+                ],
+            ], 401);
+        }
+        // appointment with appointment_date descending
+        $appointment = Appointment::where('user_id', $user->id)
+        ->orderBy('appointment_date', 'desc')
+        ->paginate(10);
+        $appointment->load('doctor');
         return response()->json([
             'message' => 'Success',
             'data' => $appointment,
@@ -114,6 +140,7 @@ class AppointmentController extends Controller
     public function getDetailAppointment($id)
     {
         $appointment = Appointment::where('id', $id)->first();
+        $appointment->load('doctor');
         if (!$appointment) {
             return response()->json([
                 'message' => 'Appointment not found',

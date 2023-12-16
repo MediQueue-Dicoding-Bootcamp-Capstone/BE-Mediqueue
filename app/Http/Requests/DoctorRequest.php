@@ -26,6 +26,7 @@ class DoctorRequest extends FormRequest
     {
         return [
             'name' => 'required | string',
+            'specialist' => 'required | string',
             'user_id' => 'required | integer',
             'start_hour' => 'required | date_format:H:i',
             'end_hour' => 'required | date_format:H:i',

@@ -48,7 +48,7 @@
                                                     "status":{
                                                         "type": "string"
                                                     },
-                                                    "type_of_appointment":{
+                                                    "type_appointment":{
                                                         "type": "string"
                                                     },
                                                     "no_queue":{
@@ -94,7 +94,7 @@
                                     "patient_address":{
                                         "type": "string"
                                     },
-                                    "type_of_appointment":{
+                                    "type_appointment":{
                                         "type": "string"
                                     },
                                     "doctor_id":{
@@ -140,7 +140,7 @@
                                                 "status":{
                                                     "type": "string"
                                                 },
-                                                "type_of_appointment":{
+                                                "type_appointment":{
                                                     "type": "string"
                                                 },
                                                 "no_queue":{

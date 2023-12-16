@@ -34,12 +34,14 @@ class DoctorTest extends TestCase
         $this->post('/api/doctors', [
             'Authorization' => 'Bearer ' . $token,
             'name' => 'Daniel',
+            'specialist' => 'Dokter Umum',
             'user_id' => $user->id,
             'start_hour' => '08:00',
             'end_hour' => '16:00',
         ])->assertStatus(201)->assertJson([
             'data' => [
                 'name' => 'Daniel',
+                'specialist' => 'Dokter Umum',
                 'user_id' => $user->id,
                 'start_hour' => '08:00',
                 'end_hour' => '16:00',
@@ -84,6 +86,7 @@ class DoctorTest extends TestCase
         $this->patch('/api/doctors/' . $doctor->id, [
             'Authorization' => 'Bearer ' . $token,
             'name' => 'Daniel Arya',
+            'specialist' => 'Dokter Umum',
             'user_id' => $doctor->user_id,
             'start_hour' => '08:00',
             'end_hour' => '16:00',
@@ -92,6 +95,7 @@ class DoctorTest extends TestCase
             'message' => 'Doctor updated successfully.',
             'data' => [
                 'name' => 'Daniel Arya',
+                'specialist' => 'Dokter Umum',
                 'user_id' => $doctor->user_id,
                 'start_hour' => '08:00',
                 'end_hour' => '16:00',

@@ -11,6 +11,7 @@ class Doctor extends Model
     protected $table = 'doctors';
     protected $fillable = [
         'name',
+        'specialist',
         'image_url',
         'start_hour',
         'end_hour',

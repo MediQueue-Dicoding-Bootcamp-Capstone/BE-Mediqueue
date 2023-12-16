@@ -47,9 +47,17 @@ class UserController extends Controller
         if (Auth::attempt($data)) {
             $user = Auth::user();
 
+            // how to create expired token
+            // get name of token
+            // $token = $user->tokens()->where('name', 'auth_token')->first();
+            // get name of token
+
             $token = $user->createToken('auth_token')->plainTextToken;
-            return (new UserResource($user))->additional(['token' => $token])
-                ->response()->setStatusCode(200)->withCookie('token', $token, 60 * 24 * 7);
+            return (new UserResource($user))
+                ->additional(['token' => $token])
+                ->response()
+                ->setStatusCode(200)
+                ->withCookie('token', $token, 60 * 24 * 7, null, null, false, false); // HttpOnly is set to false
         }
         return response()->json([
             'errors' => [

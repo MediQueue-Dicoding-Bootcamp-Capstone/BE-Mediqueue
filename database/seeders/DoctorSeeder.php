@@ -20,6 +20,7 @@ class DoctorSeeder extends Seeder
         $user = User::role('doctor')->first();
         $doctor = [
             'name' => 'Daniel',
+            'specialist' => 'Dentist',
             'image_url' => 'https://i.ibb.co/0jZ3qYJ/doctor.jpg',
             'start_hour' => '08:00:00',
             'end_hour' => '16:00:00',

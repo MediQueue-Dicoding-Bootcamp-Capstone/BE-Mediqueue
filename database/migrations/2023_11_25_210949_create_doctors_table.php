@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable(false);
+            $table->string('specialist')->nullable(false);
             $table->string('image_url')->nullable();
             $table->time('start_hour')->nullable(false);
             $table->time('end_hour')->nullable(false);

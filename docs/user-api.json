@@ -6,7 +6,7 @@
     },
     "servers": [{ "url": "http://localhost:8000" }],
     "paths": {
-        "/api/users": {
+        "/api/register": {
             "post": {
                 "description": "Register new user",
                 "requestBody": {
@@ -113,7 +113,10 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/api/users": {
+     
             "get": {
                 "description": "Get current user",
                 "parameters": [
@@ -237,7 +240,7 @@
                 }
             }
         },
-        "/api/users/login": {
+        "/login": {
             "post": {
                 "description": "Login user",
                 "requestBody": {

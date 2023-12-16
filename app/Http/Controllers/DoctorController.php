@@ -17,13 +17,25 @@ class DoctorController extends Controller
     {
 
         $doctor = Doctor::all();
+        // how to get all doctor specialist
+        $specialist = Doctor::select('specialist')->distinct()->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'List All Doctor',
+            'data' => $doctor,
+            'specialist' => $specialist,
+        ], 200);
+    }
+    
+    public function search(Request $request)
+    {
+        $doctor = Doctor::where('name', 'like', '%' . $request->search . '%')->get();
         return response()->json([
             'success' => true,
             'message' => 'List All Doctor',
             'data' => $doctor,
         ], 200);
     }
-
     public function getUserWithRoleDoctor()
     {
         $user = Auth::user();
@@ -89,6 +101,7 @@ class DoctorController extends Controller
         }
         $doctor = new Doctor;
         $doctor->name = $request->name;
+        $doctor->specialist = $request->specialist;
         $doctor->user_id = $request->user_id;
         $doctor->start_hour = $request->start_hour;
         $doctor->end_hour = $request->end_hour;
@@ -148,6 +161,7 @@ class DoctorController extends Controller
        
         // apabila input kosong, maka tetap menggunakan data yang lama
         $doctor->name = $request->name ?? $doctor->name;
+        $doctor->specialist = $request->specialist ?? $doctor->specialist;
         $doctor->user_id = $request->user_id ?? $doctor->user_id;
         $doctor->start_hour = $request->start_hour ?? $doctor->start_hour;
         $doctor->end_hour = $request->end_hour ?? $doctor->end_hour;

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('appointment_date')->nullable(false);
             $table->time('appointment_time')->nullable(false);
             $table->enum('status', ['Waiting', 'Missing', 'Completed'])->default('Waiting');
-            $table->enum('type_appointment', ['BPJS', 'Umum','Mandiri', 'Asuransi']);
+            $table->enum('type_appointment', ['BPJS', 'Asuransi','Mandiri', 'Umum']);
             $table->string('no_queue');
             $table->unsignedBigInteger('user_id')->nullable(false);
             $table->unsignedBigInteger('doctor_id')->nullable(false);

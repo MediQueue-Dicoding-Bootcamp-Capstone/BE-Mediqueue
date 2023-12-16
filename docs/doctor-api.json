@@ -30,6 +30,9 @@
                                   "name": {
                                       "type": "string"
                                   },
+                                  "specialist": {
+                                      "type": "string"
+                                  },
                                   "start_hour": {
                                       "type": "string"
                                   },
@@ -71,6 +74,9 @@
                     "name": {
                         "type": "string"
                     },
+                    "specialist": {
+                        "type": "string"
+                    },
                     "start_hour": {
                         "type": "string"
                     },
@@ -103,6 +109,9 @@
                                   "type": "integer"
                               },
                               "name": {
+                                  "type": "string"
+                              },
+                              "specialist": {
                                   "type": "string"
                               },
                               "start_hour": {
@@ -168,6 +177,9 @@
                               "name": {
                                   "type": "string"
                               },
+                              "specialist": {
+                                  "type": "string"
+                              },
                               "start_hour": {
                                   "type": "string"
                               },
@@ -219,6 +231,9 @@
                     "name": {
                         "type": "string"
                     },
+                    "specialist": {
+                        "type": "string"
+                    },
                     "start_hour": {
                         "type": "string"
                     },
@@ -251,6 +266,9 @@
                                   "type": "integer"
                               },
                               "name": {
+                                  "type": "string"
+                              },
+                              "specialist": {
                                   "type": "string"
                               },
                               "start_hour": {
