@@ -195,4 +195,48 @@ class DoctorController extends Controller
             'data' => $doctor,
         ], 200);
     }
+
+    public function deleteDoctor($id)
+    {
+        $doctor = Doctor::find($id);
+        if (!$doctor) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Doctor not found',
+                'data' => '',
+            ],
+                404);
+        }
+        $user = Auth::user();
+        if (!$user || $user = null) {
+            return response()->json([
+                'errors' => [
+                    'message' => [
+                        'unauthorized',
+                    ],
+                ],
+            ], 401);
+        }
+        if (Gate::denies('Akses Admin')) {
+            return response()->json([
+                'errors' => [
+                    'message' => [
+                        'You dont have permission to this action',
+                    ],
+                ],
+            ], 403);
+        }
+        // Menghapus file
+        Storage::delete('public/' . $doctor->image_url);
+
+        // Menghapus data Doctor
+        $doctor->delete();
+
+        // Mengembalikan response JSON
+        return response()->json([
+            'success' => true,
+            'message' => 'Doctor deleted successfully.',
+            'data' => $doctor,
+        ], 200);
+    }
 }
