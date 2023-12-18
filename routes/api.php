@@ -40,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/appointments/{id}', [AppointmentController::class, 'getDetailAppointment']);
     Route::get('/allappointments', [AppointmentController::class, 'getAllAppointment']);
     Route::get('/dashboard/patient/{date}', [DashboardController::class, 'patient']);
+    Route::get('/dashboard/user', [DashboardController::class, 'user']);
     
     
 });

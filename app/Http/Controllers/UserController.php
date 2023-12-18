@@ -38,7 +38,10 @@ class UserController extends Controller
 
         return (new UserResource($user))->additional([
             'token' => $token,
-        ])->response()->setStatusCode(201)->withCookie('token', $token, 60 * 24 * 7);
+        ])->response()->setStatusCode(201)
+        ->withCookie('token', $token, 60 * 24 * 7)
+        ->withCookie('name', $user->name, 60 * 24 * 7)
+        ->withCookie('role', $user->roles->pluck('name')->first(), 60 * 24 * 7);
     }
 
     public function login(UserLoginRequest $request): JsonResponse
@@ -57,7 +60,9 @@ class UserController extends Controller
                 ->additional(['token' => $token])
                 ->response()
                 ->setStatusCode(200)
-                ->withCookie('token', $token, 60 * 24 * 7, null, null, false, false); // HttpOnly is set to false
+                ->withCookie('token', $token, 60 * 24 * 7)
+                ->withCookie('name', $user->name, 60 * 24 * 7)
+                ->withCookie('role', $user->roles->pluck('name')->first(), 60 * 24 * 7);
         }
         return response()->json([
             'errors' => [
@@ -134,19 +139,57 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    public function logout(Request $request): JsonResponse
-    {
-        // $request->user()->currentAccessToken()->delete();
-        // send token with authorization how to delete on personal access token
-        $user = Auth::user();
-        $user->tokens()->delete();
+    // public function logout(Request $request): JsonResponse
+    // {
+    //     $user = auth()->user();
 
-        return response()->json([
-            'message' => 'User logged out.',
-            'token' => null,
-        ], 200);
-    }
+    //     if (!$user || $user == null) {
+    //         return response()->json([
+    //             'errors' => [
+    //                 'message' => [
+    //                     'unauthorized',
+    //                 ],
+    //             ],
+    //         ], 401);
+    //     }
+    //     // delete token
+    //     $user->tokens()->delete();
 
+
+    //     // delete token with cookie
+
+
+    //     return response()->json([
+    //         'message' => 'User logged out.',
+    //         'token' => null,
+    //     ], 200)
+    //     ->withCookie($cookie);
+    // }
+        // logout
+        public function logout(Request $request): JsonResponse
+        {
+            $user = auth()->user();
+            return response()->json([
+                'message' => 'User logged out.',
+                'token' => null,
+            ], 200)->withCookie('token', null, -1)
+            ->withCookie('name', null, -1)
+            ->withCookie('role', null, -1);
+            // $user->tokens()->delete();
+            // delete token
+    
+    
+            // delete token with cookie
+    
+    
+            // return response()->json([
+            //     'message' => 'User logged out.',
+            //     'token' => null,
+            // ], 200)
+            // ->withCookie('token', null, -1)
+            // ->withCookie('name', null, -1)
+            // ->withCookie('role', null, -1);
+        }
     public function delete(Request $request, $id): JsonResponse
     {
         $user = User::findOrFail($id);
